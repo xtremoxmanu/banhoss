@@ -140,3 +140,4 @@
 /ban hoss00312_unbiased
 /ban hoss00312_statuesque
 /ban hoss00312_curly
+/ban hoss00312gigantic
