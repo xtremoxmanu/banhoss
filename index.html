@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtremox Site</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0d0d2b 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #39C5BB;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 40px rgba(57, 197, 187, 0.3), 0 0 80px rgba(57, 197, 187, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #39C5BB, #00BFFF, #39C5BB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sub {
+            color: #88dddd;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        .btn-play {
+            background: transparent;
+            border: 2px solid #39C5BB;
+            color: #39C5BB;
+            font-size: 1.3rem;
+            padding: 14px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .btn-play:hover {
+            background: #39C5BB;
+            color: #0a0a1a;
+            box-shadow: 0 0 30px rgba(57, 197, 187, 0.5);
+        }
+        .btn-play.playing {
+            background: #39C5BB;
+            color: #0a0a1a;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #66aaaa;
+        }
+        .status .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+            margin-right: 6px;
+            transition: background 0.3s;
+            vertical-align: middle;
+        }
+        .status .dot.on { background: #39C5BB; box-shadow: 0 0 10px #39C5BB; }
+        .miku-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .fallback-link {
+            display: block;
+            margin-top: 15px;
+            color: #39C5BB;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .fallback-link:hover { opacity: 1; }
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="miku-icon">🎤</span>
+        <h1>Xtremox Site</h1>
+        <p class="sub">SITIO PERSONAL NOMAS</p>
+
+        <button class="btn-play" id="btnPlay">▶ PLAY RADIO</button>
+
+        <div class="status">
+            <span class="dot" id="dot"></span>
+            <span id="statusText">Radio Rancagua 99.5 FM - Chile</span>
+        </div>
+        <div class="error-msg" id="errorMsg"></div>
+
+        <a class="fallback-link" href="https://radiorancagua.cl/online/" target="_blank">Abrir Radio Rancagua en otra pestaña ↗</a>
+    </div>
+
+    <audio id="radio" loop>
+        <source src="https://sonic-cl.streaming-chile.com/9324/stream" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const audio = document.getElementById('radio');
+        const btn = document.getElementById('btnPlay');
+        const dot = document.getElementById('dot');
+        const statusText = document.getElementById('statusText');
+        const errorMsg = document.getElementById('errorMsg');
+
+        btn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btn.textContent = '⏸ PAUSE';
+                    btn.classList.add('playing');
+                    dot.classList.add('on');
+                    statusText.textContent = 'Radio Rancagua 99.5 FM - EN VIVO';
+                    errorMsg.style.display = 'none';
+                }).catch(e => {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = 'El navegador bloqueó la reproducción. Hacé clic en el enlace de abajo para abrir la radio.';
+                });
+            } else {
+                audio.pause();
+                btn.textContent = '▶ PLAY RADIO';
+                btn.classList.remove('playing');
+                dot.classList.remove('on');
+                statusText.textContent = 'Radio Rancagua 99.5 FM - Chile';
+                errorMsg.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
